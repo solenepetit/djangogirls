@@ -1,7 +1,7 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-    <article class="post">
+  <article class="post">
 		<aside class="actions">
 			{% if post.published_date %}
 				<time class="date">
@@ -18,9 +18,20 @@
 					</a>
 				{% endif %}
 			{% endif %}
-			
 		</aside>
-        <h2>{{ post.title }}</h2>
-        <p>{{ post.text|linebreaksbr }}</p>
-    </article>
+
+    <h2>{{ post.title }}</h2>
+    <p>{{ post.text|linebreaksbr }}</p>
+  </article>
+
+  <hr>
+
+  <a class="btn btn-secondary" href="{% url 'add_comment_to_post' pk=post.pk %}">Publier</a>
+  {% for comment in post.comments.all %}
+    <div class="date">{{ comment.created_date }}</div>
+    <strong>{{ comment.author }}</strong>
+    <p>{{ comment.text|linebreaks }}</p>
+  {% empty %}
+    <p>Pas de commentaire :(</p>
+  {% endfor %}
 {% endblock %}
